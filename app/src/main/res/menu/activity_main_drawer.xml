@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/messageID"
+            android:icon="@drawable/ic_email_black_24dp"
+            android:title="Email" />
+    </group>
+
+    <item android:title="Communicate">
+        <menu>
+            <item
+                android:id="@+id/rulseID"
+                android:icon="@drawable/ic_event_note_black_24dp"
+                android:title="How to work?" />
+            <item
+                android:id="@+id/shareID"
+                android:icon="@drawable/ic_share_black_24dp"
+                android:title="Share App" />
+            <item
+                android:id="@+id/rateID"
+                android:icon="@drawable/ic_star_border_black_24dp"
+                android:title="Rate Us" />
+
+            <item
+                android:id="@+id/userID"
+                android:icon="@drawable/ic_people_black_24dp"
+                android:title="User Activities" />
+            <item
+                android:id="@+id/policyID"
+                android:icon="@drawable/ic_privacy_24dp"
+                android:title="Privacy Policy" />
+            <item
+                android:id="@+id/adminID"
+                android:icon="@drawable/ic_person_black_24dp"
+                android:title="Admin Pannel" />
+        </menu>
+
+    </item>
+
+</menu>

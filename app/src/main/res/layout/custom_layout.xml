@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#079c8b"
+    android:layout_margin="10dp">
+
+    <TextView
+    android:id="@+id/mobile"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="MOBILE"
+    android:textSize="20sp"
+    android:padding="5dp"
+    android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="NAME"
+        android:textColor="#000"
+        android:textSize="20sp"
+        android:padding="5dp"/>
+
+    <TextView
+        android:id="@+id/score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SCORE"
+        android:textColor="#000"
+        android:textSize="20sp"
+        android:padding="5dp"/>
+
+    <TextView
+        android:id="@+id/temp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TEMP SCORE"
+        android:textSize="20sp"
+        android:padding="5dp"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="VIEW"
+        android:textSize="20sp"
+        android:padding="5dp"
+        android:visibility="gone"/>
+
+</LinearLayout>

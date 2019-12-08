@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:background="#12f4b8"
+    android:layout_height="match_parent"
+    tools:context=".NoticeActivity">
+
+    <TextView
+        android:id="@+id/textID"
+        android:layout_marginTop="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="30dp"
+        android:layout_marginLeft="90dp"
+        android:text="Admin Notice"/>
+    <EditText
+        android:id="@+id/noticeETID"
+        android:layout_width="307dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="5dp"
+        android:layout_below="@+id/textID"
+        android:layout_centerInParent="true"
+        android:background="#FFF"
+        android:padding="5dp"
+        android:textColor="#000"
+        android:textSize="18dp" />
+    <Button
+        android:id="@+id/publishBtnID"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:text="Publish Notice"
+        android:layout_marginTop="10dp"
+        android:textColor="#FFF"
+        android:textAllCaps="false"
+        android:textSize="18dp"
+        android:background="@drawable/btn_bg4"
+        android:layout_centerInParent="true"
+        android:layout_below="@+id/noticeETID"/>
+
+</RelativeLayout>

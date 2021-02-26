@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:orientation="vertical"
-    android:background="#15e7d5"
+    android:background="@drawable/gradiant"
     android:layout_height="match_parent"
     tools:context=".SplasScreen">
 
@@ -12,7 +12,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/colorAccent"
+        android:textColor="#fff"
         android:text="Welcome\n\nTest Your General Knowledge"
         android:layout_gravity="center"
         android:gravity="center"

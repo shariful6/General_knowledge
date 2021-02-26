@@ -35,6 +35,7 @@ public class ResultActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent =new Intent(ResultActivity.this,MainActivity.class);
+                intent.putExtra("value","2");
                 startActivity(intent);
             }
         });

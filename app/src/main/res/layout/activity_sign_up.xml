@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#6afaa1"
+    android:background="@drawable/gradiant"
     android:orientation="vertical"
     tools:context=".SignUpActivity">
 
@@ -17,7 +17,7 @@
         android:background="@drawable/btn_bg3"
         android:gravity="center"
         android:hint="Your Name"
-        android:textColor="@color/colorAccent"
+        android:textColor="#000"
         />
     <EditText
         android:id="@+id/mobileID"
@@ -29,7 +29,7 @@
         android:gravity="center"
         android:inputType="number"
         android:hint="Mobile Number"
-        android:textColor="@color/colorAccent"
+        android:textColor="#000"
         />
     <EditText
         android:id="@+id/emailID_signUp"
@@ -40,7 +40,7 @@
         android:background="@drawable/btn_bg3"
         android:gravity="center"
         android:hint="Email"
-        android:textColor="@color/colorAccent"
+        android:textColor="#000"
         />
 
     <EditText
@@ -53,7 +53,7 @@
         android:hint="Password"
         android:layout_gravity="center"
         android:inputType="textPassword"
-        android:textColor="@color/colorAccent"
+        android:textColor="#000"
         />
 
     <Button

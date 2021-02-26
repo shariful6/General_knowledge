@@ -3,14 +3,108 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:padding="15dp"
+    android:background="@drawable/gradiant"
     android:orientation="vertical"
+    android:layout_height="match_parent"
     tools:context=".WebViewActivity">
 
-    <WebView
-        android:id="@+id/webviewID"
+    <ScrollView
+        android:padding="5dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent">
 
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+
+                android:textSize="40dp"
+                android:layout_margin="5dp"
+                android:textColor="#FFF"
+                android:gravity="center"
+                android:text="Privacy Policy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+
+                android:textSize="18dp"
+                android:layout_margin="5dp"
+                android:textColor="#fff"
+                android:text="@string/p1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+
+                android:textSize="30dp"
+                android:layout_margin="5dp"
+                android:textColor="#fff"
+                android:text="Log Data"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+
+                android:textSize="18dp"
+                android:layout_margin="5dp"
+                android:textColor="#fff"
+                android:text="@string/p2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+
+                android:textSize="30dp"
+                android:layout_margin="5dp"
+                android:textColor="#fff"
+                android:text="Cokies"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+
+                android:textSize="18dp"
+                android:layout_margin="5dp"
+                android:textColor="#fff"
+                android:text="@string/p3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+
+                android:textSize="30dp"
+                android:layout_margin="5dp"
+                android:textColor="#fff"
+                android:text="Security"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+
+                android:textSize="18dp"
+                android:layout_margin="5dp"
+                android:textColor="#fff"
+                android:text="@string/p4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+
+                android:textSize="30dp"
+                android:layout_margin="5dp"
+                android:textColor="#fff"
+                android:text="Contact Us"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+
+                android:textSize="18dp"
+                android:layout_margin="5dp"
+                android:textColor="#fff"
+                android:text="@string/p5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

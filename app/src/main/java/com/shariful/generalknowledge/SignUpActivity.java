@@ -25,6 +25,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     EditText email_signUp,pass_signUp,name,mobile;
     Button signUpBtn;
+
     ProgressBar progressBar;
 
     private FirebaseAuth mAuth;
@@ -113,6 +114,7 @@ public class SignUpActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Toast.makeText(SignUpActivity.this, "SignUp Successful!!", Toast.LENGTH_SHORT).show();
                             Intent intent=new Intent(SignUpActivity.this,MainActivity.class);
+                            intent.putExtra("value","2");
                             startActivity(intent);
                         } else {
                             // If sign in fails, display a message to the user.

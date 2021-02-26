@@ -1,10 +1,12 @@
 package com.shariful.generalknowledge;
 
 public class User2 {
-    private String mobile, name, score, tempScore, view;
+    private String mobile, name, tempScore, view;
+    private int score;
 
 
-    public User2(String mobile, String name, String score, String tempScore, String view) {
+
+    public User2(String mobile, String name, int score, String tempScore, String view) {
         this.mobile = mobile;
         this.name = name;
         this.score = score;
@@ -31,11 +33,11 @@ public class User2 {
         this.name = name;
     }
 
-    public String getScore() {
+    public int getScore() {
         return score;
     }
 
-    public void setScore(String score) {
+    public void setScore(int score) {
         this.score = score;
     }
 

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:orientation="vertical"
-    android:background="#6afaa1"
+    android:background="@drawable/gradiant"
     android:layout_height="match_parent"
     tools:context=".SignInActivity">
 
@@ -17,7 +17,7 @@
         android:background="@drawable/btn_bg3"
         android:gravity="center"
         android:hint="Email"
-        android:textColor="@color/colorAccent"
+        android:textColor="#000"
         />
 
     <EditText
@@ -30,7 +30,7 @@
         android:background="@drawable/btn_bg3"
         android:layout_gravity="center"
         android:inputType="textPassword"
-        android:textColor="@color/colorAccent"
+        android:textColor="#000"
         />
 
     <Button
@@ -48,6 +48,7 @@
         android:id="@+id/tv_go_to_signUpId"
         android:layout_marginTop="10dp"
         android:textSize="17dp"
+        android:textColor="#fff"
         android:layout_width="wrap_content"
         android:layout_gravity="center"
         android:text="Are You Not Registered ?? Sign Up Here"

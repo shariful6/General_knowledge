@@ -1,5 +1,6 @@
 package com.shariful.generalknowledge;
 
+import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -30,27 +31,33 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private Button startPlayingBtn;
-    TextView scorTV;
+    TextView scorTV,breakTV;
 
     private AlertDialog.Builder builder_notice;
 
 
     private FirebaseAuth mAuth;
-
     DatabaseReference databaseReference,database;
-
     String uId;
+    String value;
+    int date;
     private FirebaseUser user;
     String noticeText;
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        value=getIntent().getStringExtra("value");
 
         databaseReference= FirebaseDatabase.getInstance().getReference("employee");
         database= FirebaseDatabase.getInstance().getReference("notice");
@@ -60,11 +67,14 @@ public class MainActivity extends AppCompatActivity
 
         startPlayingBtn=findViewById(R.id.startBtnID);
         scorTV=findViewById(R.id.scoreTVID);
+        breakTV=findViewById(R.id.breakTVID);
 
 
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
         uId = user.getUid();
+
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -75,6 +85,8 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+         status();
+       //  progressDialogOpen();
          retriveScore();
          retriveNotice();
 
@@ -137,7 +149,8 @@ public class MainActivity extends AppCompatActivity
         }
         if (id == R.id.rulseID) {
 
-            Toast.makeText(this, "Comming Soon.........", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(MainActivity.this,RulseActivity.class);
+            startActivity(intent);
             return true;
         }
 
@@ -254,6 +267,80 @@ public class MainActivity extends AppCompatActivity
                 // Failed to read value
             }
         });
+    }
+
+    public void status()
+    {
+        int i=Integer.parseInt(value);
+        if (i==1)
+        {
+            breakTV.setVisibility(View.VISIBLE);
+            startPlayingBtn.setEnabled(false);
+
+            Calendar calendar= Calendar.getInstance();
+            SimpleDateFormat simpleDateFormat =new SimpleDateFormat("dd");//pattern: dd-mmm-yyyy
+            String   current_date = simpleDateFormat.format(calendar.getTime());
+            databaseReference.child(uId).child("date").setValue(current_date);
+        }
+
+        if (i==2)
+        {
+         retriveDate();
+        }
+
+    }
+
+    private void retriveDate()
+    {
+        databaseReference.child(uId).child("date").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                if (dataSnapshot.exists()){
+                    String rDate = dataSnapshot.getValue(String.class);
+                    int idate=Integer.parseInt(rDate);
+
+                    //Toast.makeText(MainActivity.this, "Reattrive date : "+date, Toast.LENGTH_SHORT).show();
+                    Calendar calendar= Calendar.getInstance();
+                    SimpleDateFormat simpleDateFormat =new SimpleDateFormat("dd");//pattern: dd-mmm-yyyy
+                    String date2 = simpleDateFormat.format(calendar.getTime());
+                    int d2=Integer.parseInt(date2);
+                    progressDialog.dismiss();
+                    if (idate==d2)
+                    {
+                        breakTV.setVisibility(View.VISIBLE);
+                        startPlayingBtn.setEnabled(false);
+                    }
+                    else
+                    {
+                        startPlayingBtn.setEnabled(true);
+                        breakTV.setVisibility(View.INVISIBLE);
+                    }
+
+
+                }
+                else{
+                    progressDialog.dismiss();
+                    date=0;
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Toast.makeText(MainActivity.this, "Failed!!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+    public  void  progressDialogOpen()
+    {
+        progressDialog = new ProgressDialog(MainActivity.this);
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+        progressDialog.setContentView(R.layout.progress_dialog);
+        progressDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+
     }
 
 

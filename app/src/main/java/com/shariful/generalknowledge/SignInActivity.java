@@ -30,6 +30,7 @@ public class SignInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
         this.setTitle("SignIn");
+
         mAuth = FirebaseAuth.getInstance();
 
         email_signIn=findViewById(R.id.emailID_signIn);
@@ -99,6 +100,7 @@ public class SignInActivity extends AppCompatActivity {
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
                             intent.putExtra("email", email);
+                            intent.putExtra("value","2");
                             startActivity(intent);
                             Toast.makeText(SignInActivity.this, "Successfully Login !", Toast.LENGTH_SHORT).show();
                             finish();

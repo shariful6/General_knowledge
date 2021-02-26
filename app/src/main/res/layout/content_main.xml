@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="match_parent"
-    android:background="#27c6ed"
+    android:background="@drawable/gradiant"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".MainActivity"
     tools:showIn="@layout/app_bar_main">
@@ -13,7 +13,8 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        tools:ignore="MissingConstraints">
 
 
         <ImageView
@@ -46,9 +47,16 @@
             android:background="@drawable/btn_bg"
             android:textAllCaps="false" />
 
-
-
-
+        <TextView
+            android:id="@+id/breakTVID"
+            android:visibility="invisible"
+            android:text="Sorry !! Come back tommorow !!"
+            android:textColor="#fff"
+            android:textSize="25dp"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
     </LinearLayout>
 

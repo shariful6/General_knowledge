@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +25,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class QuizActivity extends AppCompatActivity {
 
@@ -36,7 +39,7 @@ public class QuizActivity extends AppCompatActivity {
     private QuestionsLibrary mQuestionsLibrary=new QuestionsLibrary();
     TextView mScoreView;
     TextView mQuestionView;
-    TextView viewTV;
+    TextView viewTV,clickTV;
     TextView countDownTV;
     Button buttonChoice1;
     Button buttonChoice2;
@@ -48,6 +51,8 @@ public class QuizActivity extends AppCompatActivity {
      int mScore=0;
      int tempScore=0;
      int mQuestionNumber=0;
+
+     int click=0;
 
     private FirebaseAuth mAuth;
 
@@ -64,6 +69,9 @@ public class QuizActivity extends AppCompatActivity {
 
     private AdView madView;
     private InterstitialAd mInterstitialAd;
+
+    ProgressBar pb;
+    int counter=0;
 
 
     @Override
@@ -83,6 +91,7 @@ public class QuizActivity extends AppCompatActivity {
         madView=findViewById(R.id.adView);
         viewTV=findViewById(R.id.viewId);
         countDownTV=findViewById(R.id.countdownID);
+        clickTV=findViewById(R.id.clickID);
 
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
@@ -91,16 +100,17 @@ public class QuizActivity extends AppCompatActivity {
         retriveView();
         retriveScore();
         retriveTempScore();
+        retriveClick();
+        prog();
 
-        MobileAds.initialize(this,"ca-app-pub-3940256099942544~3347511713"); //  App id//initialize mobile ad
+        MobileAds.initialize(this,"ca-app-pub-4550007539329197~7201253543"); //  App id//initialize mobile ad
 
         mInterstitialAd= new InterstitialAd(this);
-        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");//interstitial
+        mInterstitialAd.setAdUnitId("ca-app-pub-4550007539329197/7939620147");//interstitial
 
         AdRequest adRequest = new AdRequest.Builder().build();//ad request
 
         madView.loadAd(adRequest);//load banner ads
-
         mInterstitialAd.loadAd(adRequest);
 
         mInterstitialAd.setAdListener(new AdListener() {  //interestitial ad listener
@@ -122,7 +132,17 @@ public class QuizActivity extends AppCompatActivity {
             @Override
             public void onAdClicked() {
                 // Code to be executed when the user clicks on an ad.
-                Toast.makeText(QuizActivity.this, "Dont click on ads !!", Toast.LENGTH_SHORT).show();
+                click++;
+                databaseReference.child(uId).child("click").setValue(String.valueOf(click));
+                if (click==2)
+                {
+                    Toast.makeText(QuizActivity.this, "Wrong Task.. !!Please Wait 24 houres !!", Toast.LENGTH_SHORT).show();
+                    databaseReference.child(uId).child("click").setValue(String.valueOf(0));
+                    Intent intent = new Intent(QuizActivity.this,MainActivity.class);
+                    intent.putExtra("value","1");
+                    startActivity(intent);
+                }
+
             }
             @Override
             public void onAdLeftApplication() {
@@ -137,19 +157,36 @@ public class QuizActivity extends AppCompatActivity {
         buttonChoice1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mCountDownTimer.cancel();
+               // mCountDownTimer.cancel();
+                buttonDisbale();
                 if(buttonChoice1.getText()==mAnswer)
                 {
                     mScore=mScore+5;
                     tempScore=tempScore+5;
                     updateScore(mScore);
-                    updateQuestion();
+                   // updateQuestion();
+                    buttonChoice1.setBackgroundDrawable(getResources().getDrawable(R.drawable.answer_bg));
                     Toast.makeText(QuizActivity.this, "Correct !!", Toast.LENGTH_SHORT).show();
 
                 }
                 else{
                     Toast.makeText(QuizActivity.this, "Wrong !! Correct Ans is:"+mAnswer, Toast.LENGTH_LONG).show();
-                    updateQuestion();
+                    buttonChoice1.setBackgroundDrawable(getResources().getDrawable(R.drawable.wrongans_bg));
+
+
+                    if (buttonChoice1.getText()==mAnswer){
+                        buttonChoice1.setBackgroundDrawable(getResources().getDrawable(R.drawable.answer_bg));
+                    }
+                    else if(buttonChoice2.getText()==mAnswer){
+                        buttonChoice2.setBackgroundDrawable(getResources().getDrawable(R.drawable.answer_bg));
+                    }
+                    else if(buttonChoice3.getText()==mAnswer){
+                        buttonChoice3.setBackgroundDrawable(getResources().getDrawable(R.drawable.answer_bg));
+                    }
+                    else {
+                        buttonChoice4.setBackgroundDrawable(getResources().getDrawable(R.drawable.answer_bg));
+                    }
+                   // updateQuestion();
                 }
 
 
@@ -159,55 +196,103 @@ public class QuizActivity extends AppCompatActivity {
         buttonChoice2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mCountDownTimer.cancel();
+              //  mCountDownTimer.cancel();
+                buttonDisbale();
                 if(buttonChoice2.getText()==mAnswer)
                 {
                     mScore=mScore+5;
                     tempScore=tempScore+5;
                     updateScore(mScore);
-                    updateQuestion();
+                   // updateQuestion();
+                    buttonChoice2.setBackgroundDrawable(getResources().getDrawable(R.drawable.answer_bg));
                     Toast.makeText(QuizActivity.this, "Correct !!", Toast.LENGTH_SHORT).show();
                 }
                 else{
                     Toast.makeText(QuizActivity.this, "Wrong !! Correct Ans is:"+mAnswer, Toast.LENGTH_LONG).show();
-                    updateQuestion();
+                    buttonChoice2.setBackgroundDrawable(getResources().getDrawable(R.drawable.wrongans_bg));
+
+                    if (buttonChoice1.getText()==mAnswer){
+                        buttonChoice1.setBackgroundDrawable(getResources().getDrawable(R.drawable.answer_bg));
+                    }
+                    else if(buttonChoice2.getText()==mAnswer){
+                        buttonChoice2.setBackgroundDrawable(getResources().getDrawable(R.drawable.answer_bg));
+                    }
+                    else if(buttonChoice3.getText()==mAnswer){
+                        buttonChoice3.setBackgroundDrawable(getResources().getDrawable(R.drawable.answer_bg));
+                    }
+                    else {
+                        buttonChoice4.setBackgroundDrawable(getResources().getDrawable(R.drawable.answer_bg));
+                    }
+                   // updateQuestion();
                 }
             }
         });
         buttonChoice3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mCountDownTimer.cancel();
-
+              //  mCountDownTimer.cancel();
+                buttonDisbale();
                 if(buttonChoice3.getText()==mAnswer)
                 {
                     mScore=mScore+5;
                     tempScore=tempScore+5;
                     updateScore(mScore);
-                    updateQuestion();
+                  //  updateQuestion();
                     Toast.makeText(QuizActivity.this, "Correct !!", Toast.LENGTH_SHORT).show();
+                    buttonChoice3.setBackgroundDrawable(getResources().getDrawable(R.drawable.answer_bg));
                 }
                 else{
                     Toast.makeText(QuizActivity.this, "Wrong !! Correct Ans is:"+mAnswer, Toast.LENGTH_LONG).show();
-                    updateQuestion();
+                    buttonChoice3.setBackgroundDrawable(getResources().getDrawable(R.drawable.wrongans_bg));
+
+                    if (buttonChoice1.getText()==mAnswer){
+                        buttonChoice1.setBackgroundDrawable(getResources().getDrawable(R.drawable.answer_bg));
+                    }
+                    else if(buttonChoice2.getText()==mAnswer){
+                        buttonChoice2.setBackgroundDrawable(getResources().getDrawable(R.drawable.answer_bg));
+                    }
+                    else if(buttonChoice3.getText()==mAnswer){
+                        buttonChoice3.setBackgroundDrawable(getResources().getDrawable(R.drawable.answer_bg));
+                    }
+                    else {
+                        buttonChoice4.setBackgroundDrawable(getResources().getDrawable(R.drawable.answer_bg));
+                    }
+
                 }
             }
         });
         buttonChoice4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                 mCountDownTimer.cancel();
+               //  mCountDownTimer.cancel();
+                buttonDisbale();
                 if(buttonChoice4.getText()==mAnswer)
                 {
                     mScore=mScore+5;
                     tempScore=tempScore+5;
                     updateScore(mScore);
-                    updateQuestion();
+                  //  updateQuestion();
+                    buttonChoice4.setBackgroundDrawable(getResources().getDrawable(R.drawable.answer_bg));
                     Toast.makeText(QuizActivity.this, "Correct !!", Toast.LENGTH_SHORT).show();
                 }
                 else{
                     Toast.makeText(QuizActivity.this, "Wrong !! Correct Ans is:"+mAnswer, Toast.LENGTH_LONG).show();
-                    updateQuestion();
+                    buttonChoice4.setBackgroundDrawable(getResources().getDrawable(R.drawable.wrongans_bg));
+
+
+                    if (buttonChoice1.getText()==mAnswer){
+                        buttonChoice1.setBackgroundDrawable(getResources().getDrawable(R.drawable.answer_bg));
+                    }
+                    else if(buttonChoice2.getText()==mAnswer){
+                        buttonChoice2.setBackgroundDrawable(getResources().getDrawable(R.drawable.answer_bg));
+                    }
+                    else if(buttonChoice3.getText()==mAnswer){
+                        buttonChoice3.setBackgroundDrawable(getResources().getDrawable(R.drawable.answer_bg));
+                    }
+                    else {
+                        buttonChoice4.setBackgroundDrawable(getResources().getDrawable(R.drawable.answer_bg));
+                    }
+                   // updateQuestion();
                 }
             }
         });
@@ -215,8 +300,13 @@ public class QuizActivity extends AppCompatActivity {
         NextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mCountDownTimer.cancel();
+              //  mCountDownTimer.cancel();
+                buttonChoice1.setBackgroundDrawable(getResources().getDrawable(R.drawable.btn_bg2));
+                buttonChoice2.setBackgroundDrawable(getResources().getDrawable(R.drawable.btn_bg2));
+                buttonChoice3.setBackgroundDrawable(getResources().getDrawable(R.drawable.btn_bg2));
+                buttonChoice4.setBackgroundDrawable(getResources().getDrawable(R.drawable.btn_bg2));
                 updateQuestion();
+                buttonEnable();
 
             }
         });
@@ -234,18 +324,22 @@ public class QuizActivity extends AppCompatActivity {
 
     private void updateQuestion()
       {
-      mTimeLeftInMillis = START_TIME_IN_MILLIS;
-       startTimer();
-       updateCountDownText();
-        if(mQuestionNumber<=19)
+          counter=0;
+         // buttonEnable();
+         // NextBtn.setEnabled(false);
+     // mTimeLeftInMillis = START_TIME_IN_MILLIS;
+     //  startTimer();
+     //  updateCountDownText();
+          if(mQuestionNumber<=300)
         {
+
             mQuestionView.setText(mQuestionsLibrary.getQuestion(mQuestionNumber));
             buttonChoice1.setText(mQuestionsLibrary.getChoice1(mQuestionNumber));
             buttonChoice2.setText(mQuestionsLibrary.getChoice2(mQuestionNumber));
             buttonChoice3.setText(mQuestionsLibrary.getChoice3(mQuestionNumber));
             buttonChoice4.setText(mQuestionsLibrary.getChoice4(mQuestionNumber));
             mAnswer=mQuestionsLibrary.getCorrectAnswer(mQuestionNumber);
-           if(mQuestionNumber%5==0)
+           if(mQuestionNumber%12==0)
            {
                adLoad();
            }
@@ -292,14 +386,14 @@ public class QuizActivity extends AppCompatActivity {
 
                 if (dataSnapshot.exists()){
                     String rScore = dataSnapshot.getValue(String.class);
-                   // mScoreView.setText(rScore);
+                    // mScoreView.setText(rScore);
                     int sc=Integer.parseInt(rScore);
                     mScore=sc;
 
                 }
                 else{
 
-                   // mScoreView.setText("0");
+                    // mScoreView.setText("0");
                 }
             }
 
@@ -310,6 +404,41 @@ public class QuizActivity extends AppCompatActivity {
             }
         });
     }
+
+
+    public void retriveClick()
+    {
+        databaseReference.child(uId).child("click").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                if (dataSnapshot.exists()){
+                    String clickNumber = dataSnapshot.getValue(String.class);
+
+                    int rClick=Integer.parseInt(clickNumber);
+                    click=rClick;
+                    clickTV.setText("Invalid Click: "+click);
+
+
+                }
+                else{
+
+                    // mScoreView.setText("0");
+                    click=0;
+                    clickTV.setText("Invalid Click: "+click);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Toast.makeText(QuizActivity.this, "Failed!!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+
     public void retriveTempScore()
     {
         databaseReference.child(uId).child("tempScore").addValueEventListener(new ValueEventListener() {
@@ -366,7 +495,6 @@ public class QuizActivity extends AppCompatActivity {
                 }
 
             }
-
             @Override
             public void onCancelled(DatabaseError error) {
                 // Failed to read value
@@ -376,6 +504,7 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     // Timer Section  mTimeLeftInMillis = START_TIME_IN_MILLIS;
+
     private void startTimer() {
         mCountDownTimer = new CountDownTimer(mTimeLeftInMillis, 1000) {
             @Override
@@ -399,6 +528,7 @@ public class QuizActivity extends AppCompatActivity {
         String timeLeftFormatted = String.format(Locale.getDefault(), "%02d",seconds);
 
         countDownTV.setText(timeLeftFormatted);
+
         if(seconds==00)
         {
            buttonDisbale();
@@ -453,6 +583,36 @@ public class QuizActivity extends AppCompatActivity {
    }
 
 
+   public  void prog()
+   {
+       pb = (ProgressBar)findViewById(R.id.progressbarID);
+
+       final Timer t = new Timer();
+       TimerTask tt = new TimerTask() {
+           @Override
+           public void run()
+           {
+               counter++;
+               pb.setProgress(counter);
+
+               if(counter == 200)
+               {
+
+                   t.cancel();
+                  // buttonDisbale();
+                  // NextBtn.setEnabled(true);
+
+               }
+
+           }
+       };
+
+       t.schedule(tt,0,200);
+
+
+
+
+   }
 
 
 }

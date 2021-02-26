@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:orientation="vertical"
-    android:background="#12f4b8"
+    android:background="@drawable/gradiant"
     android:layout_height="match_parent"
     tools:context=".ResultActivity">
 
@@ -36,10 +36,10 @@
         android:text="Play Again"
         android:textAllCaps="false"
         android:layout_gravity="center"
-        android:textColor="#fff"
+        android:textColor="#000"
         android:layout_marginTop="100dp"
         android:textSize="20dp"
-        android:background="@drawable/btn_bg4"
+        android:background="@drawable/btn_bg"
         android:layout_centerInParent="true"
         />
 
